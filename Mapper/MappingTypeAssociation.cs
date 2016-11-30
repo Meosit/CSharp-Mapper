@@ -2,7 +2,7 @@
 
 namespace Mapper
 {
-    internal class MappingTypeAssociation
+    public class MappingTypeAssociation
     {
         public MappingTypeAssociation(Type destination, Type source)
         {
@@ -10,8 +10,8 @@ namespace Mapper
             Source = source;
         }
 
-        internal Type Source { get; }
-        internal Type Destination { get; }
+        public Type Source { get; }
+        public Type Destination { get; }
 
         public override bool Equals(object obj)
         {

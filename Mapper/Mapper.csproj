@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DtoMapper.cs" />
     <Compile Include="FunctionsCache.cs" />
+    <Compile Include="IFunctionBuilder.cs" />
+    <Compile Include="IFunctionsCache.cs" />
     <Compile Include="IMapper.cs" />
-    <Compile Include="MappingFunctionBuilder.cs" />
+    <Compile Include="FunctionBuilder.cs" />
     <Compile Include="MappingProperty.cs" />
     <Compile Include="MappingTypeAssociation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

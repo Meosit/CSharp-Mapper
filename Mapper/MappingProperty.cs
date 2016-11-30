@@ -2,7 +2,7 @@
 
 namespace Mapper
 {
-    internal sealed class MappingProperty
+    public sealed class MappingProperty
     {
         public MappingProperty(PropertyInfo source, PropertyInfo destination)
         {
@@ -10,8 +10,8 @@ namespace Mapper
             Source = source;
         }
 
-        internal PropertyInfo Source { get; }
-        internal PropertyInfo Destination { get; }
+        public PropertyInfo Source { get; }
+        public PropertyInfo Destination { get; }
 
         public override bool Equals(object obj)
         {
