@@ -40,7 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionsCache.cs" />
     <Compile Include="IMapper.cs" />
+    <Compile Include="MappingFunctionBuilder.cs" />
+    <Compile Include="MappingProperty.cs" />
+    <Compile Include="MappingTypeAssociation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypesAssignInfo.cs" />
   </ItemGroup>
