@@ -9,8 +9,16 @@ namespace Mapper
         private readonly IFunctionsCache _cache;
         private readonly IFunctionBuilder _builder;
         
-        public DtoMapper(FunctionBuilder builder, FunctionsCache cache)
+        public DtoMapper(IFunctionBuilder builder, IFunctionsCache cache)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("Builder is null");
+            }
+            if (cache == null)
+            {
+                throw new ArgumentNullException("Cache is null");
+            }
             _builder = builder;
             _cache = cache;
         }
@@ -23,6 +31,10 @@ namespace Mapper
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException();
+            }
             Func<TSource, TDestination> func;
             MappingTypeAssociation typeAssociation = new MappingTypeAssociation(typeof(TDestination), typeof(TSource));
             if (_cache.Contains(typeAssociation))

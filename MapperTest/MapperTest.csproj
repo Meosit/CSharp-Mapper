@@ -57,14 +57,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Destination.cs" />
-    <Compile Include="DestDtoClass2.cs" />
     <Compile Include="MapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source.cs" />
-    <Compile Include="SourceDtoClass2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mapper\Mapper.csproj">
+      <Project>{3E8CA79A-D6EA-4785-A433-5718BF6AD05B}</Project>
+      <Name>Mapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
