@@ -2,7 +2,8 @@
 
 namespace Mapper
 {
-    public class MappingTypeAssociation
+    public class MappingTypeAssociation : IEquatable<MappingTypeAssociation>
+
     {
         public MappingTypeAssociation(Type destination, Type source)
         {
@@ -13,6 +14,11 @@ namespace Mapper
         public Type Source { get; }
         public Type Destination { get; }
 
+        public bool Equals(MappingTypeAssociation other)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -20,16 +26,16 @@ namespace Mapper
             if (obj.GetType() != this.GetType()) return false;
 
             MappingTypeAssociation other = (MappingTypeAssociation) obj;
-            return Source == other.Source && 
-                Destination == other.Destination;
+            return Source == other.Source &&
+                   Destination == other.Destination;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((Source != null ? Source.GetHashCode() : 0) * 397)
-                    ^ (Destination != null ? Destination.GetHashCode() : 0);
+                return ((Source != null ? Source.GetHashCode() : 0)*397)
+                       ^ (Destination != null ? Destination.GetHashCode() : 0);
             }
         }
     }

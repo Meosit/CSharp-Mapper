@@ -22,26 +22,31 @@ namespace MapperTest
             SecondProperty = SourceToTest.SecondProperty,
         };
 
-        private static readonly IFunctionBuilder FunctionBuilder = new FunctionBuilder();
-        private static readonly IFunctionsCache FunctionsCache = new FunctionsCache();
-
         [Fact]
         public void Constructor_NullBuilder_ArgumentNullExceptionThrown()
         {
-            Assert.Throws<ArgumentNullException>(() => new DtoMapper(null, FunctionsCache));
+            IFunctionsCache functionsCache = new FunctionsCache();
+            Assert.Throws<ArgumentNullException>(() => new DtoMapper(null, functionsCache));
         }
 
         [Fact]
         public void Constructor_NullCache_ArgumentNullExceptionThrown()
         {
-            Assert.Throws<ArgumentNullException>(() => new DtoMapper(FunctionBuilder, null));
+            IFunctionBuilder functionBuilder = new FunctionBuilder();
+            Assert.Throws<ArgumentNullException>(() => new DtoMapper(functionBuilder, null));
         }
 
         [Fact]
         public void Map_NullParameter_ArgumentNullExceptionThrown()
         {
+            // arrange
             IMapper mapper = new DtoMapper();
-            Assert.Throws<ArgumentNullException>(() => mapper.Map<Source, Destination>(null));
+
+            // act
+            Func<object> act = () => mapper.Map<Source, Destination>(null);
+
+            // assert
+            Assert.Throws<ArgumentNullException>(act);
         }
 
         [Fact]
@@ -94,6 +99,7 @@ namespace MapperTest
         {
             Mock<IFunctionsCache> cacheMock = new Mock<IFunctionsCache>();
             cacheMock.Setup(cache => cache.Contains(It.IsAny<MappingTypeAssociation>())).Returns(true);
+            cacheMock.Setup(cache => cache.Get<object, object>(It.IsAny<MappingTypeAssociation>())).Returns(o => o);
 
             Mock<IFunctionBuilder> builderMock = new Mock<IFunctionBuilder>();
             builderMock.Setup(builder => builder.Build<object, object>(
@@ -105,8 +111,5 @@ namespace MapperTest
             cacheMock.Verify(cache => cache.Get<object, object>(It.IsAny<MappingTypeAssociation>()), Times.Once);
             builderMock.Verify(builder => builder.Build<object, object>(It.IsAny<List<MappingProperty>>()), Times.Never);
         }
-
-
-
     }
 }

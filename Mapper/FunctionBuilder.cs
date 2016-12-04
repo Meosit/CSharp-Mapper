@@ -20,7 +20,10 @@ namespace Mapper
             }
 
             Expression memberInitExpression = Expression.MemberInit(Expression.New(typeof(TDestination)), memberBindings);
-            return Expression.Lambda<Func<TSource, TDestination>>(memberInitExpression, parameterExpression).Compile();
+
+            var func = Expression.Lambda<Func<TSource, TDestination>>(memberInitExpression, parameterExpression).Compile();
+
+            return func;
         }
     }
 }
