@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mapper;
+using Moq;
 using Xunit;
 
 namespace MapperTest
@@ -69,5 +71,42 @@ namespace MapperTest
             Destination actualDestination = mapper.Map<Source, Destination>(SourceToTest);
             Assert.Equal(ExpectedDestination, actualDestination);
         }
+
+        [Fact]
+        public void Map_NoCache_CheckCacheNotCalled()
+        {
+            Mock<IFunctionsCache> cacheMock = new Mock<IFunctionsCache>();
+            cacheMock.Setup(cache => cache.Contains(It.IsAny<MappingTypeAssociation>())).Returns(false);
+
+            Mock<IFunctionBuilder> builderMock = new Mock<IFunctionBuilder>();
+            builderMock.Setup(builder => builder.Build<object, object>(
+                It.IsAny<List<MappingProperty>>())).Returns(o => o);
+
+            IMapper mapper = new DtoMapper(builderMock.Object, cacheMock.Object);
+            mapper.Map<object, object>(new object());
+
+            cacheMock.Verify(cache => cache.Get<object, object>(It.IsAny<MappingTypeAssociation>()), Times.Never);
+            builderMock.Verify(builder => builder.Build<object, object>(It.IsAny<List<MappingProperty>>()), Times.Once);
+        }
+
+        [Fact]
+        public void Map_HasCache_CheckCacheCalled()
+        {
+            Mock<IFunctionsCache> cacheMock = new Mock<IFunctionsCache>();
+            cacheMock.Setup(cache => cache.Contains(It.IsAny<MappingTypeAssociation>())).Returns(true);
+
+            Mock<IFunctionBuilder> builderMock = new Mock<IFunctionBuilder>();
+            builderMock.Setup(builder => builder.Build<object, object>(
+                It.IsAny<List<MappingProperty>>())).Returns(o => o);
+
+            IMapper mapper = new DtoMapper(builderMock.Object, cacheMock.Object);
+            mapper.Map<object, object>(new object());
+
+            cacheMock.Verify(cache => cache.Get<object, object>(It.IsAny<MappingTypeAssociation>()), Times.Once);
+            builderMock.Verify(builder => builder.Build<object, object>(It.IsAny<List<MappingProperty>>()), Times.Never);
+        }
+
+
+
     }
 }
